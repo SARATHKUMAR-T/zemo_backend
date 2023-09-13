@@ -66,8 +66,6 @@ StreakRouter.patch("/streaks/start/:id", isAuthenticated, async (req, res) => {
     const formatter = new Intl.DateTimeFormat("en-US", options);
     const formattedDate = formatter.format(new Date());
 
-    console.log(formattedDate);
-
     const streak = await Streak.findByIdAndUpdate(
       { _id: req.params.id },
       { $set: { isstarted: true, startdate: formattedDate } },
