@@ -7,7 +7,7 @@ import "dotenv/config";
 export const userRouter = express.Router();
 
 // Login
-userRouter.post("/login", async (req, res) => {
+userRouter.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -18,9 +18,9 @@ userRouter.post("/login", async (req, res) => {
       user.password
     );
     if (!validatePassword) {
-      return res.status(500).json({ message: "Invalid Credentials" });
+      return res.status(400).json({ message: "Invalid Credentials" });
     } else {
-      const token = jwt.sign({ id: user.id }, process.env.SECRET);
+      const token = jwt.sign({ id: user._id }, process.env.SECRET);
       return res
         .status(200)
         .json({ message: "User Logged In  Successfully", token });
@@ -44,7 +44,7 @@ userRouter.post("/signup", async (req, res) => {
       ...req.body,
       password: hashedPassword,
     }).save();
-    const token = jwt.sign({ id: newUser.id }, process.env.SECRET);
+    const token = jwt.sign({ id: newUser._id }, process.env.SECRET);
     return res
       .status(200)
       .json({ message: "New User Created Successfully", token });

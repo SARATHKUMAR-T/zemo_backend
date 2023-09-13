@@ -7,10 +7,7 @@ const dbConnection = () => {
     useUnifiedTopology: true,
   };
   try {
-    mongoose.connect(
-      `mongodb+srv://sarathkumar:sara98@cluster0.xk4iedp.mongodb.net/?retryWrites=true&w=majority`,
-      params
-    );
+    mongoose.connect(process.env.MONGODB_URL, params);
     console.log("Db connected successfully");
   } catch (error) {
     console.log("error occured while connecting Db", error);

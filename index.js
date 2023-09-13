@@ -3,6 +3,8 @@ import "dotenv/config";
 import cors from "cors";
 import dbConnection from "./dbconnection.js";
 import { userRouter } from "./Routers/UserRouter.js";
+import { isAuthenticated } from "./auth.js";
+import { StreakRouter } from "./Routers/StreakRouter.js";
 
 const app = express();
 
@@ -16,3 +18,4 @@ app.listen(9000, () => {
 });
 
 app.use("/api", userRouter);
+app.use("/api", isAuthenticated, StreakRouter);
