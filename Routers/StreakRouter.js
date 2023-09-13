@@ -50,11 +50,27 @@ StreakRouter.delete("/streak/delete/:id", isAuthenticated, async (req, res) => {
 
 StreakRouter.patch("/streaks/start/:id", isAuthenticated, async (req, res) => {
   try {
-    const startdate = new Date().toLocaleString();
+    // const startdate = new Date().toLocaleString();
+
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      timeZoneName: "short",
+      hour12: false,
+    };
+
+    const formatter = new Intl.DateTimeFormat("en-US", options);
+    const formattedDate = formatter.format(new Date());
+
+    console.log(formattedDate);
 
     const streak = await Streak.findByIdAndUpdate(
       { _id: req.params.id },
-      { $set: { isstarted: true, startdate } },
+      { $set: { isstarted: true, startdate: formattedDate } },
       { new: true }
     );
     if (streak) {
